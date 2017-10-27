@@ -8,6 +8,7 @@ image_resource:
 
 inputs:
   - name: pal-tracker
+  - name: version
 
 outputs:
   - name: build-output
@@ -17,13 +18,16 @@ run:
   args:
   - -exc
   - |
-  
+
     mkdir -p build-output/src/PalTracker
-    cp pal-tracker/manifest.yml build-output
-    
+    cp pal-tracker/manifest-*.yml build-output
+
     cd pal-tracker/test/PalTrackerTests 
     dotnet test
 
     cd ../../src/PalTracker
     dotnet publish --configuration Release
     cp -r bin ../../../build-output/src/PalTracker
+    cd ../../../build-output
+    tar -cvzf /tmp/pal-tracker-$(cat ../version/number).tgz .
+    mv /tmp/pal-tracker-*.tgz .

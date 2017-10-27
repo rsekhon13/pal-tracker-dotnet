@@ -2,6 +2,9 @@ cf-api-url: CF_API_URL
 cf-username: CF_USERNAME
 cf-password: CF_PASSWORD
 cf-org: CF_ORG
+aws-access-key-id: AWS_ACCESS_KEY
+aws-secret-access-key: AWS_SECRET_KEY
+aws-bucket: AWS_S3_BUCKET
 github-repository: git@github.com:GITHUB_USERNAME/pal-tracker-dotnet.git
 github-private-key: |
   -----BEGIN RSA PRIVATE KEY-----
