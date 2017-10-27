@@ -5,10 +5,14 @@ namespace PalTracker
     [Route("/")]
     public class WelcomeController : Controller
     {
+        private readonly WelcomeMessage _message;
+
         [HttpGet]
-        public string SayHello()
+        public string SayHello() => _message.Message;
+
+        public WelcomeController(WelcomeMessage message)
         {
-            return "hello";
+            _message = message;
         }
     }
 }
