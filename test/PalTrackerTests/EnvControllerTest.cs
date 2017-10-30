@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using PalTracker;
-using PalTracker.Controllers;
+﻿using PalTracker;
 using Xunit;
 
 namespace PalTrackerTests
