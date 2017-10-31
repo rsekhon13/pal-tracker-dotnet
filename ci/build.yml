@@ -5,7 +5,7 @@ image_resource:
   source:
     repository: microsoft/dotnet
     tag: '2.0.0-sdk'
-
+    
 inputs:
   - name: pal-tracker
   - name: version
@@ -18,13 +18,30 @@ run:
   args:
   - -exc
   - |
+  
+    function stop_mysql {
+      service mysql stop
+    }
+    
+    trap stop_mysql EXIT
+    
+    export DEBIAN_FRONTEND="noninteractive"
 
+    apt-get update
+    apt-get -y install mysql-server
+    service mysql start
+    
+    mysql -uroot < pal-tracker/databases/tracker/create_databases.sql
+    
+    curl https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/4.2.0/flyway-commandline-4.2.0-linux-x64.tar.gz | tar xvz
+    flyway-*/flyway -url="jdbc:mysql://localhost:3306/tracker_test" -locations=filesystem:pal-tracker/databases/tracker -user=tracker -password=password clean migrate
+      
     mkdir -p build-output/src/PalTracker
     cp pal-tracker/manifest-*.yml build-output
-
+    
     cd pal-tracker/test/PalTrackerTests 
     dotnet test
-
+        
     cd ../../src/PalTracker
     dotnet publish --configuration Release
     cp -r bin ../../../build-output/src/PalTracker
